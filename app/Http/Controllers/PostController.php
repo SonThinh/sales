@@ -2,27 +2,47 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Post;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
+    public function show()
+    {
+        $post = Post::all();
+        return response()->json($post, Response::HTTP_OK);
+    }
+
     public function create(Request $request)
     {
-        dd($request->all());
+        $post = new Post();
+        $post->user_id = $request->user_id;
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->save();
+        return response()->json($post, Response::HTTP_CREATED);
     }
 
     public function showDetail(Request $request, $id)
     {
-        dd($request->all());
+        $post = Post::find($id);
+        return response()->json($post, Response::HTTP_OK);
     }
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        $post = Post::find($id);
+        $post->user_id = $request->input('user_id');
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+        $post->save();
+        return response()->json($post, Response::HTTP_OK);
     }
 
-    public function delete(Request $request)
+    public function delete($id)
     {
-        dd($request->all());
+        Post::destroy($id);
+        return Response::HTTP_OK;
     }
 }

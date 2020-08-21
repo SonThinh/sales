@@ -37,3 +37,9 @@ l
 <database/migrations/2014_10_12_000000_create_users_table.php,d\e\de963aaada5c6577b654cfbdcf083dc355b1fa2b
 W
 'app/Http/Controllers/UserController.php,7\d\7de9f5d267d12a172eff77837bcb8fb2e88564c2
+l
+<database/migrations/2020_08_21_094300_create_posts_table.php,9\7\970ee7335cd97480ddca343c95f82a9ecfbccbfd
+B
+app/Model/Post.php,2\2\229b48be0849b22f8c4a77d1ff985fc4ddd979f0
+B
+app/Model/User.php,9\4\9406593a689809fd46e6ab55dc2fad62b5b90144
