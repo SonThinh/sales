@@ -12,7 +12,7 @@ class HomeController extends Controller
         return view('welcome');
     }
 
-    public function showLogin(Request $request)
+    public function showLogin()
     {
         return view('login');
     }
