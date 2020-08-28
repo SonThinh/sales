@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
-abstract class EloquentRepository
+use App\Repositories\Contracts\RepositoryInterface;
+
+abstract class EloquentRepository implements RepositoryInterface
 {
     /**
      * @var \Illuminate\Database\Eloquent\Model
@@ -43,107 +45,30 @@ abstract class EloquentRepository
      */
     public function getAll()
     {
-        return $this->_model->orderBy($this->sortBy, $this->sortOrder)->get();
+        return $this->_model->all();
     }
 
-    public function query()
-    {
-        return $this->_model->newQuery();
-    }
-
-    public function getByLimit($limit)
-    {
-        return $this->_model->take($limit)->get();
-    }
-
-    public function take($limit)
-    {
-        return $this->_model->take($limit);
-    }
-
-    public function findByCode($code, $with = [])
-    {
-        return $this->_model->with($with)->where('code', $code)->first();
-    }
-
-    public function findWith(int $id, $with = [])
-    {
-        return $this->_model->with($with)->find($id);
-    }
-
-    public function findMany(array $ids)
-    {
-        return $this->_model->findMany($ids);
-    }
-
-    public function paginate($limit)
-    {
-        return $this->_model->latest()->paginate($limit);
-    }
-
-    /**
-     * Get one
-     *
-     * @param $id
-     * @return mixed
-     */
     public function find($id)
     {
         return $this->_model->find($id);
     }
 
-    /**
-     * Get one
-     *
-     * @param $id
-     * @return mixed
-     */
-    public function where(array $conditions)
-    {
-        return $this->_model->where($conditions);
-    }
-
-    public function with($conditions)
-    {
-        return $this->_model->with($conditions);
-    }
-
-    /**
-     * Create
-     *
-     * @param array $attributes
-     * @return mixed
-     */
-    public function create(array $attributes)
+    public function create($attributes = [])
     {
         return $this->_model->create($attributes);
     }
 
-    /**
-     * Update
-     *
-     * @param $id
-     * @param array $attributes
-     * @return bool|mixed
-     */
-    public function update($id, array $attributes)
+    public function update($id, $attributes = [])
     {
         $result = $this->find($id);
         if ($result) {
             $result->update($attributes);
-
             return $result;
         }
 
         return false;
     }
 
-    /**
-     * Delete
-     *
-     * @param $id
-     * @return bool
-     */
     public function delete($id)
     {
         $result = $this->find($id);
