@@ -2,58 +2,63 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\User;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+
     protected $_userRepository;
 
     public function __construct(
         UserRepository $userRepository
-    )
-    {
+    ) {
         $this->_userRepository = $userRepository;
     }
 
     public function show()
     {
         $user = $this->_userRepository->getAll();
-        return response()->json($user, Response::HTTP_OK);
+
+        return response()->json([
+            'data' => $user,
+        ], Response::HTTP_OK);
     }
 
-    public function create(Request $request)
+    public function store(RegisterRequest $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-        return response()->json($user, Response::HTTP_CREATED);
+        $user = $this->_userRepository->createUser($request);
+        if ($user) {
+            return response()->json($user, Response::HTTP_CREATED);
+        }
+
+        return response()->json(Response::HTTP_BAD_REQUEST);
     }
 
     public function showInfo($id)
     {
         $user = $this->_userRepository->find($id);
+
         return response()->json($user, Response::HTTP_OK);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        $user = $this->_userRepository->find($id);
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
-        $user->save();
-        return response()->json($user, Response::HTTP_OK);
+        $user = $this->_userRepository->updateUser($request, $id);
+        if ($user) {
+            return response()->json($user, Response::HTTP_OK);
+        }
+
+        return response()->json(Response::HTTP_BAD_REQUEST);
     }
 
     public function delete($id)
     {
-        $this->_userRepository->destroy($id);
+        $this->_userRepository->delete($id);
+
         return Response::HTTP_OK;
     }
+
 }

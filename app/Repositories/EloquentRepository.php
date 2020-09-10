@@ -6,6 +6,7 @@ use App\Repositories\Contracts\RepositoryInterface;
 
 abstract class EloquentRepository implements RepositoryInterface
 {
+
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
@@ -48,6 +49,16 @@ abstract class EloquentRepository implements RepositoryInterface
         return $this->_model->all();
     }
 
+    public function paginate($limit)
+    {
+        return $this->_model->paginate($limit);
+    }
+
+    public function simplePaginate($limit)
+    {
+        return $this->_model->simplePaginate($limit);
+    }
+
     public function find($id)
     {
         return $this->_model->find($id);
@@ -63,10 +74,16 @@ abstract class EloquentRepository implements RepositoryInterface
         $result = $this->find($id);
         if ($result) {
             $result->update($attributes);
+
             return $result;
         }
 
         return false;
+    }
+
+    public function firstOrNew($attributes = [])
+    {
+        return $this->_model->firstOrNew($attributes);
     }
 
     public function delete($id)
@@ -92,4 +109,5 @@ abstract class EloquentRepository implements RepositoryInterface
 
         return false;
     }
+
 }
