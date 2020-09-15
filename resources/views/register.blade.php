@@ -5,21 +5,23 @@
 @endsection
 @section('main')
     <div class="container">
-        <form action="{{route('users.create')}}" method="POST" class="mt-3" autocomplete="off" id="register-form">
+        <form action="{{route('users.create',app()->getLocale())}}" method="POST" class="mt-3" autocomplete="off"
+              id="register-form">
             @csrf
             <div class="form-group">
-                <input class="form-control" type="text" name="email" placeholder="Email">
+                <input class="form-control" type="text" name="email" placeholder="{{trans('lang.email')}}">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="name" placeholder="Name">
+                <input class="form-control" type="text" name="name" placeholder="{{trans('lang.name')}}">
             </div>
             <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="Mật khẩu">
+                <input class="form-control" type="password" name="password" placeholder="{{trans('lang.pass')}}">
             </div>
             <div class="form-group">
-                <input class="form-control" type="password" name="password_confirmation" placeholder="Nhập Lại Mật khẩu">
+                <input class="form-control" type="password" name="password_confirmation"
+                       placeholder="{{trans('lang.confirm_pass')}}">
             </div>
-            <input type="submit" value="Đăng ký" class="btn btn-block btn-primary">
+            <input type="submit" value="{{trans('lang.register')}}" class="btn btn-block btn-primary">
         </form>
     </div>
 @endsection

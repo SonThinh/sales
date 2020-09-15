@@ -1,5 +1,6 @@
 $(document).ready(function () {
     let url = $('meta[name=list-user]').attr("content");
+    let locale = $('meta[name=locale]').attr("content");
     $.ajax({
         url: url,
         dataType: 'json',
@@ -12,11 +13,11 @@ $(document).ready(function () {
                     <td>${value.id}</td>
                     <td><a href="/api/users/${value.id}">${value.name}</a></td>
                     <td>${value.email}</td>
-                    <td><a href="/view/${value.id}/edit-user" class="btn btn-block btn-success">Edit</a>
-                    <a href="/view/${value.id}/delete-user" class="btn btn-block btn-danger">Delete</a></td>
+                    <td><a href="/${locale}/view/${value.id}/edit-user" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
+                    <a href="/${locale}/view/${value.id}/delete-user" class="btn btn-block btn-danger"><i class="fal fa-trash"></i></a></td>
                     </tr>`
                 );
-            })
+            });
         }
     });
 })
