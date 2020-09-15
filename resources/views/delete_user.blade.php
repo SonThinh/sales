@@ -5,7 +5,7 @@
 @endsection
 @section('main')
     <div class="container">
-        <form action="{{route('users.delete',$user->id)}}" method="POST" class="mt-3" autocomplete="off" id="delete-user">
+        <form action="{{route('users.delete',['locale'=>app()->getLocale(),'id'=>$user->id])}}" method="POST" class="mt-3" autocomplete="off" id="delete-user">
             @method('DELETE')
             @csrf
             <div class="form-group">
@@ -14,7 +14,7 @@
             <div class="form-group">
                 <input class="form-control" type="text" name="name" disabled value="{{$user->name}}">
             </div>
-            <input type="submit" value="Xóa" class="btn btn-block btn-primary">
+            <input type="submit" value="{{trans('lang.del')}}" class="btn btn-block btn-primary">
         </form>
     </div>
 @endsection
