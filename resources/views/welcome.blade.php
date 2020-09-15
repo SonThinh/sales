@@ -1,6 +1,7 @@
 @extends('index')
 @section('title','Welcome')
-<meta name="list-user" content="{{route('users.show')}}">
+<meta name="list-user" content="{{route('users.show',app()->getLocale())}}">
+<meta name="locale" content="{{app()->getLocale()}}">
 @section('style')
     <link rel="stylesheet" href="{{asset('css/all.min.css')}}">
 @endsection
@@ -10,9 +11,11 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col"><a href="{{route('view.create')}}" class="btn btn-block btn-primary">Add</a></th>
+                <th scope="col">{{trans('lang.name')}}</th>
+                <th scope="col">{{trans('lang.email')}}</th>
+                <th scope="col"><a href="{{route('view.create',app()->getLocale())}}" class="btn btn-block btn-primary"><i
+                            class="fal fa-plus"></i></a>
+                </th>
             </tr>
             </thead>
             <tbody id="user-list"></tbody>

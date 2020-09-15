@@ -38,14 +38,14 @@ class HomeController extends Controller
         return view('register');
     }
 
-    public function showEditUser($id)
+    public function showEditUser($locale,$id)
     {
         $data['user'] = $this->_userRepository->find($id);
 
         return view('edit_user', $data);
     }
 
-    public function showDeleteUser($id)
+    public function showDeleteUser($locale,$id)
     {
         $data['user'] = $this->_userRepository->find($id);
 
@@ -56,7 +56,7 @@ class HomeController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('home');
+        return redirect()->route('home',app()->getLocale());
     }
 
     public function postLogin(LoginRequest $request)
@@ -64,14 +64,14 @@ class HomeController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'status'  => 'true',
-                'message' => 'Đăng nhập thành công',
-                'url'     => route('home'),
+                'message' => trans('message.login_success'),
+                'url'     => route('home',app()->getLocale()),
             ], Response::HTTP_OK);
         } else {
             return response()->json([
                 'status'  => 'false',
-                'message' => 'Sai tài khoản hoặc mật khẩu',
-                'url'     => route('view.login'),
+                'message' => trans('message.login_fail'),
+                'url'     => route('view.login',app()->getLocale()),
             ], Response::HTTP_OK);
         }
     }
