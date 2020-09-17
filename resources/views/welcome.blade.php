@@ -2,6 +2,9 @@
 @section('title','Welcome')
 <meta name="list-user" content="{{route('users.show',app()->getLocale())}}">
 <meta name="locale" content="{{app()->getLocale()}}">
+@role('admin')
+<meta name="role" content="admin">
+@endrole
 @section('style')
     <link rel="stylesheet" href="{{asset('css/all.min.css')}}">
 @endsection
@@ -13,9 +16,11 @@
                 <th scope="col">#</th>
                 <th scope="col">{{trans('lang.name')}}</th>
                 <th scope="col">{{trans('lang.email')}}</th>
+                @role('admin')
                 <th scope="col"><a href="{{route('view.create',app()->getLocale())}}" class="btn btn-block btn-primary"><i
                             class="fal fa-plus"></i></a>
                 </th>
+                @endrole
             </tr>
             </thead>
             <tbody id="user-list"></tbody>

@@ -1,6 +1,8 @@
 $(document).ready(function () {
     let url = $('meta[name=list-user]').attr("content");
     let locale = $('meta[name=locale]').attr("content");
+    let role = $('meta[name=role]').attr("content");
+    console.log(role)
     $.ajax({
         url: url,
         dataType: 'json',
@@ -8,13 +10,20 @@ $(document).ready(function () {
         type: 'GET',
         success: function (response) {
             $.each(response.data, function (key, value) {
+                let a;
+                if (role === 'admin') {
+                    a = `<td><a href="/${locale}/view/${value.id}/edit-user" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
+                    <a href="/${locale}/view/${value.id}/delete-user" class="btn btn-block btn-danger"><i class="fal fa-trash"></i></a></td>`;
+                } else {
+                    a = ``;
+                }
+
                 $('#user-list').append(
                     `<tr>
                     <td>${value.id}</td>
                     <td><a href="/api/users/${value.id}">${value.name}</a></td>
                     <td>${value.email}</td>
-                    <td><a href="/${locale}/view/${value.id}/edit-user" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
-                    <a href="/${locale}/view/${value.id}/delete-user" class="btn btn-block btn-danger"><i class="fal fa-trash"></i></a></td>
+                    ${a}
                     </tr>`
                 );
             });
