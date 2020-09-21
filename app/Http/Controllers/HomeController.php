@@ -6,7 +6,6 @@ use App\Http\Requests\LoginRequest;
 use App\Repositories\PostRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
@@ -31,25 +30,6 @@ class HomeController extends Controller
     public function showLogin()
     {
         return view('login');
-    }
-
-    public function showRegister()
-    {
-        return view('register');
-    }
-
-    public function showEditUser($locale,$id)
-    {
-        $data['user'] = $this->_userRepository->find($id);
-
-        return view('edit_user', $data);
-    }
-
-    public function showDeleteUser($locale,$id)
-    {
-        $data['user'] = $this->_userRepository->find($id);
-
-        return view('delete_user', $data);
     }
 
     function logout()

@@ -45,5 +45,9 @@ class UserRepository extends EloquentRepository
 
         return $user;
     }
+    public function getList(){
+        $list_user = $this->getAll()->toArray();
+
+    }
 
 }

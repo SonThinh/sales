@@ -1,7 +1,8 @@
 @extends('index')
 @section('title','Welcome')
-<meta name="list-user" content="{{route('users.show',app()->getLocale())}}">
+<meta name="list-user" content="{{route('users.index',app()->getLocale())}}">
 <meta name="locale" content="{{app()->getLocale()}}">
+<meta name="id" content="{{auth()->id()}}">
 @role('admin')
 <meta name="role" content="admin">
 @endrole
@@ -13,11 +14,10 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">{{trans('lang.name')}}</th>
                 <th scope="col">{{trans('lang.email')}}</th>
                 @role('admin')
-                <th scope="col"><a href="{{route('view.create',app()->getLocale())}}" class="btn btn-block btn-primary"><i
+                <th scope="col"><a href="{{route('users.create',app()->getLocale())}}" class="btn btn-block btn-primary"><i
                             class="fal fa-plus"></i></a>
                 </th>
                 @endrole
