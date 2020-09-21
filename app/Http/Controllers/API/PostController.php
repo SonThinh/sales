@@ -49,11 +49,13 @@ class PostController extends Controller
      *
      * @param  int  $id
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        $post = $this->_postRepository->find($id);
+
+        return response()->json($post, Response::HTTP_OK);
     }
 
     /**
