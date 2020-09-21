@@ -20,16 +20,13 @@ Route::group([
     });
 
     Route::group([
-        'prefix'     => 'view',
-        'as'         => 'view.',
         'middleware' => ['CheckLogout', 'role:admin'],
     ], function () {
-        Route::get('/register', 'HomeController@showRegister')
-             ->name('create');
-        Route::get('/{id}/edit-user', 'HomeController@showEditUser')
-             ->name('edit');
-        Route::get('/{id}/delete-user', 'HomeController@showDeleteUser')
-             ->name('delete');
+        Route::resource('users', UserController::class)->only([
+            'create',
+            'edit',
+        ]);
+        Route::get('users/{id}/delete', 'UserController@delete');
     });
 
     Route::get('/logout', 'HomeController@logout')->name('logout');

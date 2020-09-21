@@ -4,7 +4,7 @@
 @endforeach
 
 @if(Auth::check())
-    <a href="#">
+    <a href="{{route('users.show',auth()->user()->id)}}">
         <span>{{auth()->user()->name}}</span>
     </a>
     <a href="{{route('logout',app()->getLocale())}}"><span><i class="fal fa-sign-out-alt"></i> {{trans('lang.logout')}}</span></a>

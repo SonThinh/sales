@@ -29,19 +29,8 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => "required|email|unique:users,email,$this->id,id",
-            'name'  => "required|unique:users,name,$this->id,id",
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'email.required' => 'Chưa nhập email',
-            'email.email'    => 'Email không đúng',
-            'email.unique'   => 'Email đã có',
-            'name.required'  => 'Chưa nhập tên',
-            'name.unique'    => 'Tên đã có',
+            'email' => "required|email|unique:users,email,$this->user()->id,id",
+            'name'  => "required|unique:users,name,$this->user()->id,id",
         ];
     }
 
