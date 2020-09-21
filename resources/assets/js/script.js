@@ -2,7 +2,8 @@ $(document).ready(function () {
     let url = $('meta[name=list-user]').attr("content");
     let locale = $('meta[name=locale]').attr("content");
     let role = $('meta[name=role]').attr("content");
-    console.log(role)
+    let id = $('meta[name=id]').attr("content");
+
     $.ajax({
         url: url,
         dataType: 'json',
@@ -11,16 +12,22 @@ $(document).ready(function () {
         success: function (response) {
             $.each(response.data, function (key, value) {
                 let a;
+                let b;
                 if (role === 'admin') {
-                    a = `<td><a href="/${locale}/view/${value.id}/edit-user" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
-                    <a href="/${locale}/view/${value.id}/delete-user" class="btn btn-block btn-danger"><i class="fal fa-trash"></i></a></td>`;
+                    a = `<td><a href="/${locale}/users/${value.id}/edit" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
+                    <a href="/${locale}/users/${value.id}/delete" class="btn btn-block btn-danger"><i class="fal fa-trash"></i></a></td>`;
                 } else {
                     a = ``;
                 }
 
+                if (value.id === 1 || value.id === parseInt(id)) {
+                    b = 'class="hidden-user"';
+                } else {
+                    b = '';
+                }
+
                 $('#user-list').append(
-                    `<tr>
-                    <td>${value.id}</td>
+                    `<tr ${b}>
                     <td><a href="/api/users/${value.id}">${value.name}</a></td>
                     <td>${value.email}</td>
                     ${a}
@@ -29,6 +36,7 @@ $(document).ready(function () {
             });
         }
     });
+    $('.hidden-user').remove();
 })
 
 toastr.options = {
@@ -59,7 +67,6 @@ $('#login-form').on('submit', function (e) {
         url: $(this).attr('action'),
         data: new FormData(this),
         success: function (data) {
-            console.log(data)
             if (data.errors) {
                 $.each(data.errors, function (key, value) {
                     toastr.error(value);
@@ -114,3 +121,4 @@ $('#update-user').on('submit', function (e) {
         }
     });
 });
+

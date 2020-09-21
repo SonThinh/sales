@@ -5,7 +5,8 @@
 @endsection
 @section('main')
     <div class="container">
-        <form action="{{route('users.edit',['locale'=>app()->getLocale(),'id'=>$user->id])}}" method="POST" class="mt-3"
+        <form action="{{route('users.update',$user->id)}}" method="POST"
+              class="mt-3"
               autocomplete="off" id="update-user">
             @method('PUT')
             @csrf

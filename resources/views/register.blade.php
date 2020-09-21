@@ -5,7 +5,7 @@
 @endsection
 @section('main')
     <div class="container">
-        <form action="{{route('users.create',app()->getLocale())}}" method="POST" class="mt-3" autocomplete="off"
+        <form action="{{route('users.store',app()->getLocale())}}" method="POST" class="mt-3" autocomplete="off"
               id="register-form">
             @csrf
             <div class="form-group">

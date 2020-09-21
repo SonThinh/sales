@@ -64,6 +64,11 @@ abstract class EloquentRepository implements RepositoryInterface
         return $this->_model->find($id);
     }
 
+    public function where($column, $operator)
+    {
+        return $this->_model->where($column, $operator);
+    }
+
     public function create($attributes = [])
     {
         return $this->_model->create($attributes);
@@ -102,7 +107,7 @@ abstract class EloquentRepository implements RepositoryInterface
     {
         $result = $this->find($id);
         if ($result) {
-            $result->destroy();
+            $result->destroy($id);
 
             return true;
         }

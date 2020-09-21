@@ -2,63 +2,108 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
 
     protected $_userRepository;
 
-    public function __construct(
+    function __construct(
         UserRepository $userRepository
     ) {
         $this->_userRepository = $userRepository;
     }
 
-    public function show()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     */
+    public function index()
     {
-        $user = $this->_userRepository->getAll();
-
-        return response()->json([
-            'data' => $user,
-        ], Response::HTTP_OK);
+        //
     }
 
-    public function store(RegisterRequest $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     */
+    public function create()
     {
-        $user = $this->_userRepository->createUser($request);
-        if ($user) {
-            return response()->json($user, Response::HTTP_CREATED);
-        }
-
-        return response()->json(Response::HTTP_BAD_REQUEST);
+        return view('register');
     }
 
-    public function showInfo($id)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        $user = $this->_userRepository->find($id);
-
-        return response()->json($user, Response::HTTP_OK);
+        //
     }
 
-    public function update(UpdateUserRequest $request, $id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        $user = $this->_userRepository->updateUser($request, $id);
-        if ($user) {
-            return response()->json($user, Response::HTTP_OK);
-        }
 
-        return response()->json(Response::HTTP_BAD_REQUEST);
     }
 
-    public function delete($id)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     */
+    public function edit($locale, $id)
     {
-        $this->_userRepository->delete($id);
+        $data['user'] = $this->_userRepository->find($id);
 
-        return Response::HTTP_OK;
+        return view('edit_user', $data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+    public function delete($locale, $id)
+    {
+        $data['user'] = $this->_userRepository->find($id);
+
+        return view('delete_user', $data);
     }
 
 }
