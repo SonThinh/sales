@@ -24,7 +24,9 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('welcome');
+        $data['posts'] = $this->_postRepository->paginate(5);
+
+        return view('welcome', $data);
     }
 
     public function showLogin()
@@ -36,7 +38,7 @@ class HomeController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('home',app()->getLocale());
+        return redirect()->route('home', app()->getLocale());
     }
 
     public function postLogin(LoginRequest $request)
@@ -45,13 +47,13 @@ class HomeController extends Controller
             return response()->json([
                 'status'  => 'true',
                 'message' => trans('message.login_success'),
-                'url'     => route('home',app()->getLocale()),
+                'url'     => route('home', app()->getLocale()),
             ], Response::HTTP_OK);
         } else {
             return response()->json([
                 'status'  => 'false',
                 'message' => trans('message.login_fail'),
-                'url'     => route('view.login',app()->getLocale()),
+                'url'     => route('view.login', app()->getLocale()),
             ], Response::HTTP_OK);
         }
     }

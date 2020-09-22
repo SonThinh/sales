@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\PostRepository;
+use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,14 +24,22 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $post = $this->_postRepository->getAll();
+        $posts = $this->_postRepository->paginate(6);
+        $data  = [];
+
+        foreach ($posts as $post) {
+            array_push($data,
+                (new PostTransformer())->transform($post, $request->curLocale));
+        }
 
         return response()->json([
-            'data' => $post,
+            'data' => $data,
         ], Response::HTTP_OK);
     }
+
+
 
     /**
      * Store a newly created resource in storage.

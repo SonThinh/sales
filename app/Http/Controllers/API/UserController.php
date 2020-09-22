@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiBaseController;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
+use App\Transformers\UserTransformer;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends ApiBaseController
@@ -26,10 +27,14 @@ class UserController extends ApiBaseController
      */
     public function index()
     {
-        $user  = $this->_userRepository->getAll();
-
+        $users  = $this->_userRepository->paginate(3);
+        $data=[];
+        foreach ($users as $user) {
+            array_push($data,
+                (new UserTransformer())->transform($user));
+        }
         return response()->json([
-            'data' => $user,
+            'data' => $data,
         ], Response::HTTP_OK);
     }
 

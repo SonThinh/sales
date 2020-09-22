@@ -1,7 +1,24 @@
-.active {
-    font-weight: bold;
+.active img{
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 a:hover {
     text-decoration: none;
+}
+.table-user thead th,tr,td{
+    vertical-align: middle !important;
+    text-align: center;
+}
+.list-post{
+    margin-bottom: 20px;
+}
+.list-post .post .post-user{
+    display: flex;
+}
+
+.post .post-interact{
+    display: flex;
 }
