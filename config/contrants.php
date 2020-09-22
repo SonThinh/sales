@@ -1,7 +1,21 @@
 <?php
-return[
-    'LANGUAGE'=>[
-        'en' => 'English',
-        'vi' => 'Tiếng Việt'
-    ]
+return [
+    'LANGUAGE' => [
+        'en' => [
+            'name'       => 'English',
+            'nativeName' => 'English',
+            'flag'       => 'us',
+        ],
+        'vi' => [
+            'name'       => 'Vietnamese',
+            'nativeName' => 'Tiếng Việt',
+            'flag'       => 'vn',
+        ],
+    ],
+    'CATEGORY' => [
+        'Life',
+        'Cars',
+        'Houses',
+        'Programming',
+    ],
 ];

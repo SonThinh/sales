@@ -2,62 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Post;
-use App\Repositories\PostRepository;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
-
-    protected $_postRepository;
-
-    public function __construct(
-        PostRepository $postRepository
-    ) {
-        $this->_postRepository = $postRepository;
-    }
-
-    public function show()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $post = $this->_postRepository->getAll();
-
-        return response()->json($post, Response::HTTP_OK);
+        //
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
-        $post = $this->_postRepository->createPost($request);
-        if ($post) {
-            return response()->json($post, Response::HTTP_CREATED);
-        }
-
-        return response()->json(Response::HTTP_BAD_REQUEST);
-
+        //
     }
 
-    public function showDetail(Request $id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        $post = $this->_postRepository->find($id);
-
-        return response()->json($post, Response::HTTP_OK);
+        //
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
-        $post = $this->_postRepository->updatePost($request, $id);
-        if ($post) {
-            return response()->json($post, Response::HTTP_OK);
-        }
-
-        return response()->json(Response::HTTP_BAD_REQUEST);
+        //
     }
 
-    public function delete($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-        $this->_postRepository->destroy($id);
-
-        return Response::HTTP_OK;
+        //
     }
-
 }

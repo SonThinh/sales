@@ -1,6 +1,8 @@
 @foreach(Config('contrants.LANGUAGE') as $key => $value)
-    <a href="{{route('home',$key)}}"
-       @if(app()->getLocale() === $key) class="active" @endif>{{$value}}</a>
+    <a @if(app()->getLocale() === $key)href="javascript:void(0)"
+       class="active" @else href="{{route('home',$key)}}" @endif>
+        <img src="{{asset('flag/'.$value['flag'].'/32.png')}}"
+             alt="{{$value['nativeName']}}"></a>
 @endforeach
 
 @if(Auth::check())
