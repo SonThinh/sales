@@ -1,42 +1,95 @@
 $(document).ready(function () {
-    let url = $('meta[name=list-user]').attr("content");
-    let locale = $('meta[name=locale]').attr("content");
+    let url_user = $('meta[name=list-user]').attr("content");
+    let url_post = $('meta[name=list-post]').attr("content");
+    let url_cate = $('meta[name=list-cate]').attr("content");
     let role = $('meta[name=role]').attr("content");
     let id = $('meta[name=id]').attr("content");
+    let locale = $('html')[0].lang;
 
     $.ajax({
-        url: url,
+        url: url_user,
         dataType: 'json',
         async: false,
         type: 'GET',
         success: function (response) {
             $.each(response.data, function (key, value) {
-                let a;
-                let b;
-                if (role === 'admin') {
-                    a = `<td><a href="/${locale}/users/${value.id}/edit" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
+                let action;
+                let class_hidden;
+
+                action = `<td><a href="/${locale}/users/${value.id}/edit" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
                     <a href="/${locale}/users/${value.id}/delete" class="btn btn-block btn-danger"><i class="fal fa-trash"></i></a></td>`;
-                } else {
-                    a = ``;
-                }
 
                 if (value.id === 1 || value.id === parseInt(id)) {
-                    b = 'class="hidden-user"';
+                    class_hidden = 'class="hidden-user"';
                 } else {
-                    b = '';
+                    class_hidden = '';
                 }
 
                 $('#user-list').append(
-                    `<tr ${b}>
+                    `<tr ${class_hidden}>
                     <td><a href="/api/users/${value.id}">${value.name}</a></td>
                     <td>${value.email}</td>
-                    ${a}
+                    ${action}
                     </tr>`
                 );
             });
         }
     });
     $('.hidden-user').remove();
+    $.ajax({
+        url: url_post,
+        dataType: 'json',
+        async: false,
+        type: 'GET',
+        data: {curLocale: locale},
+        success: function (response) {
+            $.each(response.data, function (key, value) {
+                $('#list-post').append(
+                    `<div class="post mb-3">
+                        <div class="post-user"><a href="#">${value.user_name}</a>
+                            <span class="font-weight-light pl-2">${value.created_at}</span>
+                        </div>
+                        <div class="post-content mb-1">${value.description}</div>
+                        <div class="post-interact">
+                            <div class="like pr-2">
+                                <a href="#">
+                                    <i class="fal fa-thumbs-up"></i>
+                                </a><span>0</span>
+                            </div>
+                            <div class="dislike">
+                                <a href="#">
+                                    <i class="fal fa-thumbs-down"></i>
+                                </a><span>0</span>
+                            </div>
+                        </div>
+                    </div>`
+                );
+            });
+        }
+    });
+    $.ajax({
+        url: url_cate,
+        dataType: 'json',
+        async: false,
+        type: 'GET',
+        success: function (response) {
+            $.each(response.data, function (key, value) {
+                let action;
+                if (role !== 'undefined')
+                    action = `<td><a href="/${locale}/categories/${value.id}/edit" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
+                    <a href="/${locale}/categories/${value.id}/delete" class="btn btn-block btn-danger"><i class="fal fa-trash"></i></a></td>`;
+                else {
+                    action = '';
+                }
+                $('#cate-list').append(
+                    `<tr>
+                    <td><a href="/api/categories/${value.id}">${value.name}</a></td>
+                    ${action}
+                    </tr>`
+                );
+            });
+        }
+    });
 })
 
 toastr.options = {

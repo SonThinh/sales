@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-between p-3">
             <a href="{{route('home',app()->getLocale())}}">
                 <h1 class="logo">
-                    eCommerce
+                    BOXEs
                 </h1>
             </a>
 
