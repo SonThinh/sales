@@ -66,7 +66,7 @@ abstract class EloquentRepository implements RepositoryInterface
 
     public function where($column, $operator)
     {
-        return $this->_model->where($column, $operator);
+        return $this->_model->where($column, $operator)->get();
     }
 
     public function create($attributes = [])
@@ -113,6 +113,11 @@ abstract class EloquentRepository implements RepositoryInterface
         }
 
         return false;
+    }
+
+    public function whereIn($column, array $ids)
+    {
+        return $this->_model->whereIn($column, $ids)->get();
     }
 
 }

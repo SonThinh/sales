@@ -26,7 +26,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $cates = $this->_categoryRepository->paginate(3);
+        $cates = $this->_categoryRepository->getAll();
         $data  = [];
         foreach ($cates as $cate) {
             array_push($data,
