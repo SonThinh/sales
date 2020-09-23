@@ -28,7 +28,6 @@ Route::group([
         ]);
         Route::get('users/{id}/delete', 'UserController@delete');
     });
-
     Route::get('/logout', 'HomeController@logout')->name('logout');
 });
 

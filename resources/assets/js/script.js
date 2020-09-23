@@ -46,7 +46,7 @@ $(document).ready(function () {
             $.each(response.data, function (key, value) {
                 $('#list-post').append(
                     `<div class="post mb-3">
-                        <div class="post-user"><a href="#">${value.user_name}</a>
+                        <div class="post-user"><a href="/api/users/${value.id}">${value.user_name}</a>
                             <span class="font-weight-light pl-2">${value.created_at}</span>
                         </div>
                         <div class="post-content mb-1">${value.description}</div>
@@ -74,23 +74,63 @@ $(document).ready(function () {
         type: 'GET',
         success: function (response) {
             $.each(response.data, function (key, value) {
-                let action;
-                if (role !== 'undefined')
-                    action = `<td><a href="/${locale}/categories/${value.id}/edit" class="btn btn-block btn-success"><i class="fal fa-pen"></i></a>
-                    <a href="/${locale}/categories/${value.id}/delete" class="btn btn-block btn-danger"><i class="fal fa-trash"></i></a></td>`;
-                else {
-                    action = '';
-                }
-                $('#cate-list').append(
-                    `<tr>
-                    <td><a href="/api/categories/${value.id}">${value.name}</a></td>
-                    ${action}
-                    </tr>`
+                $('#filter-cate').append(
+                    `<div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" class="custom-control-input cate" id="cate${value.id}" name="cate[]" value="${value.id}">
+                            <label class="custom-control-label" for="cate${value.id}">${value.name}</label>
+                        </div>`
                 );
             });
         }
     });
 })
+$(document).on('change', '.cate', function () {
+    filterCate($('#filter-cate').attr('action'));
+})
+
+function filterCate(url) {
+    let loader = $('meta[name=loader]').attr("content");
+    setTimeout(function () {
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: $('#filter-cate').serialize(),
+            dataType: "json",
+            cache: false,
+            success: function (response) {
+                $.each(response.data, function (key, value) {
+                    $('#list-post').append(
+                        `<div class="post mb-3">
+                        <div class="post-user"><a href="#">${value.user_name}</a>
+                            <span class="font-weight-light pl-2">${value.created_at}</span>
+                        </div>
+                        <div class="post-content mb-1">${value.description}</div>
+                        <div class="post-interact">
+                            <div class="like pr-2">
+                                <a href="#">
+                                    <i class="fal fa-thumbs-up"></i>
+                                </a><span>0</span>
+                            </div>
+                            <div class="dislike">
+                                <a href="#">
+                                    <i class="fal fa-thumbs-down"></i>
+                                </a><span>0</span>
+                            </div>
+                        </div>
+                    </div>`
+                    );
+                });
+            },
+            beforeSend: function () {
+                $('#list-post').html('<div class="my-2 ml-3 text-center ajax-loading">' +
+                    '<img style="width: 15%" src=" ' + loader + '"alt=""></div>')
+            },
+            complete: function () {
+                $('.ajax-loading').hide();
+            }
+        });
+    }, 500);
+}
 
 toastr.options = {
     "closeButton": true,

@@ -13,7 +13,9 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Category::class, 10)->create();
+        foreach (Config('contrants.CATEGORY') as $cate){
+            Category::create(['name'=>$cate]);
+        }
     }
 
 }

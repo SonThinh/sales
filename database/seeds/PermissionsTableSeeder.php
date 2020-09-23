@@ -14,10 +14,9 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name' => 'edit']);
-        Permission::create(['name' => 'show']);
-        Permission::create(['name' => 'delete']);
-        Permission::create(['name' => 'add']);
+        foreach (Config('contrants.PERMISSION') as $permission) {
+            Permission::create(['name' => $permission]);
+        }
     }
 
 }

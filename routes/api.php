@@ -12,3 +12,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::apiResource('posts', PostController::class);
 Route::apiResource('categories', CategoryController::class);
+Route::get('filter', 'API\PostController@filter')->name('posts.filter');

@@ -2,6 +2,7 @@
 <meta name="list-post" content="{{route('posts.index')}}">
 <meta name="list-cate" content="{{route('categories.index')}}">
 <meta name="id" content="{{auth()->id()}}">
+<meta name="loader" content="{{asset('loader/loading.gif')}}">
 @role('admin')
 <meta name="role" content="admin">
 @endrole
@@ -15,20 +16,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <table class="table table-sm table-cate">
-                        <thead>
-                        <tr>
-                            <th scope="col">{{trans('lang.name')}}</th>
-                            @if(Auth::check())
-                                <th scope="col"><a href="#"
-                                                   class="btn btn-block btn-primary"><i
-                                            class="fal fa-plus"></i></a>
-                                </th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody id="cate-list"></tbody>
-                    </table>
+                    <form action="{{route('posts.filter',['curLocale'=>app()->getLocale()])}}" method="GET"
+                          id="filter-cate"></form>
                     @role('admin')
                     <table class="table table-sm table-user">
                         <thead>
@@ -48,9 +37,6 @@
 
                 <div class="col-md-8">
                     <div class="ml-3" id="list-post"></div>
-                    {{--                    <div class="my-2 ml-3 text-center" class="ajax-loading">--}}
-                    {{--                        <img style="width: 15%" src="{{ asset('loader/loading.gif') }}" alt="">--}}
-                    {{--                    </div>--}}
                 </div>
             </div>
         </div>

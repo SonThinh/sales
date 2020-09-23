@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\CategoryRepository;
 use App\Repositories\PostRepository;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
@@ -12,11 +13,14 @@ class PostController extends Controller
 {
 
     protected $_postRepository;
+    protected $_categoryRepository;
 
     public function __construct(
-        PostRepository $postRepository
+        PostRepository $postRepository,
+        CategoryRepository $category_repository
     ) {
-        $this->_postRepository = $postRepository;
+        $this->_postRepository     = $postRepository;
+        $this->_categoryRepository = $category_repository;
     }
 
     /**
@@ -26,7 +30,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = $this->_postRepository->paginate(6);
+        $posts = $this->_postRepository->getAll();
         $data  = [];
 
         foreach ($posts as $post) {
@@ -38,7 +42,6 @@ class PostController extends Controller
             'data' => $data,
         ], Response::HTTP_OK);
     }
-
 
 
     /**
@@ -90,6 +93,27 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function filter(Request $request)
+    {
+        if ($request->cate) {
+            $posts = $this->_postRepository->whereIn('category_id',
+                $request->cate);
+        } else {
+            $posts = $this->_postRepository->getAll();
+        }
+        $data = [];
+
+        foreach ($posts as $post) {
+            array_push($data,
+                (new PostTransformer())->transform($post,
+                    $request->curLocale));
+        }
+
+        return response()->json([
+            'data' => $data,
+        ], Response::HTTP_OK);
     }
 
 }

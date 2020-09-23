@@ -18,4 +18,10 @@ return [
         'Houses',
         'Programming',
     ],
+    'PERMISSION' => [
+        'edit',
+        'show',
+        'add',
+        'delete',
+    ]
 ];
